@@ -9,7 +9,7 @@ from PIL import Image
 app = Flask(__name__)
 
 # Load the trained model
-model = load_model('models/model_0.840.h5.keras')
+model = load_model('models/model_0.848.h5.keras')
 
 # Class names for CIFAR-10 dataset
 class_names = ['aeroplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']

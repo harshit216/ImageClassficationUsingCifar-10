@@ -92,6 +92,6 @@ for i, metrics in enumerate(zip([losses, accs], [val_losses, val_accs], ['Loss',
     plt.plot(range(epochs), metrics[1], label='Validation {}'.format(metrics[2]))
     plt.legend()
 plt.show()
-model = tf.keras.models.load_model('models/model_0.836.h5.keras')
+model = tf.keras.models.load_model('models/model_0.848.h5.keras')
 preds = model.predict(x_test/255.)
 show_random_examples(x_test, y_test, preds)
