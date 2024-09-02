@@ -66,6 +66,7 @@
             max-width: 100%;
             border-radius: 5px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            display: none; /* Hide initially */
         }
     </style>
 </head>
@@ -84,12 +85,18 @@
     <script>
         function previewImage(event) {
             const imagePreview = document.getElementById('image-preview');
+            const resultDiv = document.getElementById('result');
+
+            // Reset the result display
+            resultDiv.innerHTML = '';
+
+            // Show the uploaded image
             imagePreview.src = URL.createObjectURL(event.target.files[0]);
-            imagePreview.style.display = 'block';
+            imagePreview.style.display = 'block'; // Show image preview
         }
 
         document.getElementById('upload-form').onsubmit = function(event) {
-            event.preventDefault();
+            event.preventDefault(); // Prevent the default form submission
             const formData = new FormData(this);
 
             fetch('/predict', {
@@ -98,7 +105,7 @@
             })
             .then(response => response.text())
             .then(data => {
-                document.getElementById('result').innerHTML = data;
+                document.getElementById('result').innerHTML = data; // Display the prediction result
             })
             .catch(error => {
                 console.error('Error:', error);
