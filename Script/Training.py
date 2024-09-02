@@ -1,4 +1,8 @@
 import tensorflow as tf
+
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+
+import tensorflow as tf
 import os
 import numpy as np
 
@@ -15,6 +19,7 @@ y_test = tf.keras.utils.to_categorical(y_test)
 
 print(x_train.shape, y_train.shape)
 print(x_test.shape, y_test.shape)
+
 class_names = ['aeroplane', 'automobile', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck']
 
 
@@ -37,7 +42,6 @@ def show_random_examples(x, y, p):
 
 
 show_random_examples(x_train, y_train, y_train)
-show_random_examples(x_test, y_test, y_test)
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, BatchNormalization
 from tensorflow.keras.layers import Dropout, Flatten, Input, Dense
 
@@ -70,13 +74,13 @@ model = create_model()
 model.summary()
 
 h = model.fit(
-    x_train/255., y_train,
-    validation_data=(x_test/255., y_test),
-    epochs=100, batch_size=128,
+    x_train / 255., y_train,
+    validation_data=(x_test / 255., y_test),
+    epochs=20, batch_size=128,
     callbacks=[
-        tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=50),
+        tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=2),
         tf.keras.callbacks.ModelCheckpoint('models/model_{val_accuracy:.3f}.h5.keras', save_best_only=True,
-                                          save_weights_only=False, monitor='val_accuracy')
+                                           save_weights_only=False, monitor='val_accuracy')
     ]
 )
 losses = h.history['loss']
@@ -92,6 +96,6 @@ for i, metrics in enumerate(zip([losses, accs], [val_losses, val_accs], ['Loss',
     plt.plot(range(epochs), metrics[1], label='Validation {}'.format(metrics[2]))
     plt.legend()
 plt.show()
-model = tf.keras.models.load_model('models/model_0.848.h5.keras')
-preds = model.predict(x_test/255.)
+model = tf.keras.models.load_model('models/model_0.778.h5')
+preds = model.predict(x_test / 255.)
 show_random_examples(x_test, y_test, preds)
